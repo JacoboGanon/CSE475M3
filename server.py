@@ -17,19 +17,23 @@ def index():
 def predict():
     if request.method == 'POST':
         # Get the form data
-        capital = request.form['capital']
-        liabilities = request.form['liabilities']
-        assets_last_year = request.form['assets_last_year']
-        net_income = request.form['net_income']
-        equity = request.form['equity']
-        sales = request.form['sales']
-        interest = request.form['interest']
-        interest_bearing_debt = request.form['interest_bearing_debt']
-        gross_income = request.form['gross_income']
-        eps1 = request.form.get('eps1', 0)
-        eps2 = request.form.get('eps2', 0)
-        eps3 = request.form.get('eps3', 0)
-        eps4 = request.form.get('eps4', 0)
+        capital = float(request.form['capital'])
+        liabilities = float(request.form['liabilities'])
+        assets_last_year = float(request.form['assets_last_year'])
+        net_income = float(request.form['net_income'])
+        equity = float(request.form['equity'])
+        sales = float(request.form['sales'])
+        interest = float(request.form['interest'])
+        interest_bearing_debt = float(request.form['interest_bearing_debt'])
+        gross_income = float(request.form['gross_income'])
+        eps1 = float(request.form.get('eps1', 0))
+        eps2 = float(request.form.get('eps2', 0))
+        eps3 = float(request.form.get('eps3', 0))
+        eps4 = float(request.form.get('eps4', 0))
+
+        # Check if capital + liabilities <= 0
+        if capital + liabilities <= 0:
+            return render_template('predict.html', bankrupt_status="Error: Capital + Liabilities must be greater than 0")
 
         # Calculate EPS average if any of the EPS values are empty
         if not eps1 or not eps2 or not eps3 or not eps4:
@@ -43,18 +47,18 @@ def predict():
         # Calculate Assets growth rate
         assets_growth_rate = ((assets_this_year - float(assets_last_year)) / float(assets_last_year)) - 1
 
-        # Calculate ROE
-        roe = float(net_income) / float(equity)
+        # Calculate ROE (If equity is 0, set ROE to 0)
+        roe = float(net_income) / float(equity) if float(equity) != 0 else 0
 
         # Calculate Z-Score
         ebit = (float(net_income) / 0.7) + float(interest)
         z_score = 1.2 * (float(capital) / assets_this_year) + 1.4 * (float(net_income) / assets_this_year) + 3.3 * (ebit / assets_this_year) + 0.6 * (float(equity) / float(liabilities)) + 0.999 * (float(sales) / assets_this_year)
 
-        # Calculate interest bearing debt interest rate
-        interest_bearing_debt_interest_rate = float(interest) / float(interest_bearing_debt)
+        # Calculate interest bearing debt interest rate (if interest bearing debt is 0, set rate to 0)
+        interest_bearing_debt_interest_rate = float(interest) / float(interest_bearing_debt) if float(interest_bearing_debt) != 0 else 0
 
-        # Calculate borrowing dependency
-        borrowing_dependency = float(liabilities) / float(gross_income)
+        # Calculate borrowing dependency (if gross income is 0, set dependency to 1)
+        borrowing_dependency = float(liabilities) / float(gross_income) if float(gross_income) != 0 else 1
 
         # Make a prediction with the machine learning algorithm
         features = {
