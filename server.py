@@ -26,10 +26,10 @@ def predict():
         interest = float(request.form['interest'])
         interest_bearing_debt = float(request.form['interest_bearing_debt'])
         gross_income = float(request.form['gross_income'])
-        eps1 = float(request.form.get('eps1', 0))
-        eps2 = float(request.form.get('eps2', 0))
-        eps3 = float(request.form.get('eps3', 0))
-        eps4 = float(request.form.get('eps4', 0))
+        eps1 = request.form.get('eps1')
+        eps2 = request.form.get('eps2')
+        eps3 = request.form.get('eps3')
+        eps4 = request.form.get('eps4')
 
         # Check if capital + liabilities <= 0
         if capital + liabilities <= 0:
@@ -72,9 +72,9 @@ def predict():
         features_df = pd.DataFrame([features])
         prediction = model.predict(features_df)
         if prediction[0] == 1:
-            text_prediction = "Bankrupt"
+            text_prediction = "Bankruptcy"
         else:
-            text_prediction = "Not Bankrupt"
+            text_prediction = "Safe from bankruptcy"
 
         return render_template('predict.html', bankrupt_status=text_prediction)
     else:
