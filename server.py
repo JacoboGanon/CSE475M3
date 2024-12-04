@@ -54,7 +54,7 @@ def predict():
         interest_bearing_debt_interest_rate = float(interest) / float(interest_bearing_debt)
 
         # Calculate borrowing dependency
-        borrowing_dependency = float(liabilities) / float(equity)
+        borrowing_dependency = float(liabilities) / float(gross_income)
 
         # Make a prediction with the machine learning algorithm
         features = {
