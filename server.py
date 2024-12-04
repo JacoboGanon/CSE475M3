@@ -1,5 +1,10 @@
 from flask import Flask, render_template, request
 from waitress import serve
+import joblib
+import pandas as pd
+
+# Load the model
+model = joblib.load('./rmf_model.pkl')
 
 app = Flask(__name__)
 
@@ -51,10 +56,23 @@ def predict():
         # Calculate borrowing dependency
         borrowing_dependency = float(liabilities) / float(equity)
 
-        # Make a prediction with the machine learning algorithm (placeholder)
-        bankrupt_status = "Bankruptcy"  # Placeholder for actual prediction
+        # Make a prediction with the machine learning algorithm
+        features = {
+            " Net Value Growth Rate": assets_growth_rate,
+            " Net Income to Stockholder's Equity": roe,
+            " Persistent EPS in the Last Four Seasons": eps_avg,
+            "z_score": z_score,
+            " Interest-bearing debt interest rate": interest_bearing_debt_interest_rate,
+            " Borrowing dependency": borrowing_dependency
+        }
+        features_df = pd.DataFrame([features])
+        prediction = model.predict(features_df)
+        if prediction[0] == 1:
+            text_prediction = "Bankrupt"
+        else:
+            text_prediction = "Not Bankrupt"
 
-        return render_template('predict.html', bankrupt_status=bankrupt_status)
+        return render_template('predict.html', bankrupt_status=text_prediction)
     else:
         return render_template('index.html')
 
