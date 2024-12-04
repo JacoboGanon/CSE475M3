@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bankruptcy Prediction</title>
+    <link rel="stylesheet" href="/static/css/main.css" />
+  </head>
+  <body class="w-full min-h-screen flex flex-col justify-between bg-gray-950">
+    <!-- Header -->
+    <header class="w-full py-6 bg-gray-950 text-white text-center">
+      <h1 class="text-4xl">Bankruptcy Prediction</h1>
+    </header>
+    <main class="flex flex-col items-center gap-y-6 py-4 px-4 flex-grow bg-gray-900/50">
+      <form
+        action="/predict"
+        method="POST"
+        class="sm:grid-cols-2 grid gap-x-6 gap-y-4 grid-cols-1 md:grid-cols-3 w-full max-w-4xl md:mt-20"
+      >
+        <label htmlFor="capital" class="text-white flex flex-col">
+          Capital:
+          <input
+            type="number"
+            id="capital"
+            name="capital"
+            placeholder="Capital"
+            required
+            class="h-10 outline-none bg-transparent rounded-sm border border-gray-500 px-2 mt-1"
+          />
+        </label>
+        <label htmlFor="liabilities" class="text-white flex flex-col">
+          Liabilities:
+          <input
+            type="number"
+            id="liabilities"
+            name="liabilities"
+            placeholder="Liabilities"
+            required
+            class="h-10 outline-none bg-transparent rounded-sm border border-gray-500 px-2 mt-1"
+          />
+        </label>
+        <label htmlFor="assets" class="text-white flex flex-col">
+          Assets last year:
+          <input
+            type="number"
+            id="assets"
+            name="assets_last_year"
+            placeholder="Assets last year"
+            required
+            class="h-10 outline-none bg-transparent rounded-sm border border-gray-500 px-2 mt-1"
+          />
+        </label>
+        <label htmlFor="net-income" class="text-white flex flex-col">
+          Net Income:
+          <input
+            type="number"
+            id="net-income"
+            name="net_income"
+            placeholder="Net Income"
+            required
+            class="h-10 outline-none bg-transparent rounded-sm border border-gray-500 px-2 mt-1"
+          />
+        </label>
+        <label htmlFor="equity" class="text-white flex flex-col">
+          Equity:
+          <input
+            type="number"
+            id="equity"
+            name="equity"
+            placeholder="Equity"
+            required
+            class="h-10 outline-none bg-transparent rounded-sm border border-gray-500 px-2 mt-1"
+          />
+        </label>
+        <label htmlFor="sales" class="text-white flex flex-col">
+          Sales:
+          <input
+            type="number"
+            id="sales"
+            name="sales"
+            placeholder="Sales"
+            required
+            class="h-10 outline-none bg-transparent rounded-sm border border-gray-500 px-2 mt-1"
+          />
+        </label>
+        <label htmlFor="interest" class="text-white flex flex-col">
+          Interest:
+          <input
+            type="number"
+            id="interest"
+            name="interest"
+            placeholder="Interest"
+            required
+            class="h-10 outline-none bg-transparent rounded-sm border border-gray-500 px-2 mt-1"
+          />
+        </label>
+        <label htmlFor="interest-bearing-debt" class="text-white flex flex-col">
+          Interest Bearing Debt:
+          <input
+            type="number"
+            id="interest-bearing-debt"
+            name="interest_bearing_debt"
+            placeholder="Interest Bearing Debt"
+            required
+            class="h-10 outline-none bg-transparent rounded-sm border border-gray-500 px-2 mt-1"
+          />
+        </label>
+        <label htmlFor="gross-income" class="text-white flex flex-col">
+          Gross Income:
+          <input
+            type="number"
+            id="gross-income"
+            name="gross_income"
+            placeholder="Gross Income"
+            required
+            class="h-10 outline-none bg-transparent rounded-sm border border-gray-500 px-2 mt-1"
+          />
+        </label>
+        <!-- Optional -->
+        <label htmlFor="eps1" class="text-white flex flex-col">
+          Earnings Per Share 1:
+          <input
+            type="number"
+            id="eps1"
+            name="eps1"
+            placeholder="Earnings Per Share 1"
+            class="h-10 outline-none bg-transparent rounded-sm border border-gray-500 px-2 mt-1"
+          />
+        </label>
+        <label htmlFor="eps2" class="text-white flex flex-col">
+          Earnings Per Share 2:
+          <input
+            type="number"
+            id="eps2"
+            name="eps2"
+            placeholder="Earnings Per Share 2"
+            class="h-10 outline-none bg-transparent rounded-sm border border-gray-500 px-2 mt-1"
+          />
+        </label>
+        <label htmlFor="eps3" class="text-white flex flex-col">
+          Earnings Per Share 3:
+          <input
+            type="number"
+            id="eps3"
+            name="eps3"
+            placeholder="Earnings Per Share 3"
+            class="h-10 outline-none bg-transparent rounded-sm border border-gray-500 px-2 mt-1"
+          />
+        </label>
+        <label htmlFor="eps4" class="text-white flex flex-col">
+          Earnings Per Share 4:
+          <input
+            type="number"
+            id="eps4"
+            name="eps4"
+            placeholder="Earnings Per Share 4"
+            class="h-10 outline-none bg-transparent rounded-sm border border-gray-500 px-2 mt-1"
+          />
+        </label>
+        <!-- Button to submit -->
+        <button
+          type="submit"
+          class="col-span-full h-10 rounded-md bg-white hover:bg-white/90 border border-gray-500 text-black text-md mt-4"
+        >
+          Predict
+        </button>
+      </form>
+      {% if bankrupt_status %}
+      <div
+        class="mt-4 text-lg font-bold {% if bankrupt_status == 'Bankruptcy' %}text-red-500{% else %}text-green-500{% endif %}"
+      >
+        Prediction: {{ bankrupt_status }}
+      </div>
+      {% endif %}
+    </main>
+    <!-- Footer -->
+    <footer class="w-full py-4 bg-gray-950 text-white text-center mt-auto">
+      <p>&copy; 2024 Bankruptcy Prediction. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

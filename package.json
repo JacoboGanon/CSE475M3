@@ -1,0 +1,14 @@
+{
+  "name": "capstone",
+  "version": "1.0.0",
+  "description": "This is a multiple part project that first included creating a Machine Learning Algorithm of our choice. This specific part is just a simple website to deploy the model and be able to interact with the algorithm.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tailwindcss": "^3.4.16"
+  }
+}
